@@ -66,7 +66,7 @@ func NewModularGenome(id int, t []*neat.Trait, n []*network.NNode, g []*Gene, mi
 // This special constructor creates a Genome with in inputs, out outputs, n out of maxHidden hidden units, and random
 // connectivity.  If rec is true then recurrent connections will be included. The last input is a bias
 // link_prob is the probability of a link. The created genome is not modular.
-func newGenomeRand(newId, in, out, n, maxHidden int, recurrent bool, linkProb float64) *Genome {
+func newGenomeRand(newId, in, out, n, maxHidden int, recurrent bool, linkProb float64, opts *neat.Options) *Genome {
 	totalNodes := in + out + maxHidden
 	matrixDim := totalNodes * totalNodes
 	// The connection matrix which will be randomized
