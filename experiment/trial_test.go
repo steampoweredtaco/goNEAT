@@ -3,9 +3,9 @@ package experiment
 import (
 	"bytes"
 	"encoding/gob"
+	"github.com/steampoweredtaco/goNEAT/v3/neat/genetics"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/yaricom/goNEAT/v3/neat/genetics"
 	"math"
 	"math/rand"
 	"testing"

@@ -1,8 +1,8 @@
 package network
 
 import (
+	"github.com/steampoweredtaco/goNEAT/v3/neat"
 	"github.com/stretchr/testify/assert"
-	"github.com/yaricom/goNEAT/v3/neat"
 	"testing"
 )
 

@@ -3,9 +3,9 @@ package genetics
 import (
 	"errors"
 	"fmt"
-	"github.com/yaricom/goNEAT/v3/neat"
-	"github.com/yaricom/goNEAT/v3/neat/math"
-	"github.com/yaricom/goNEAT/v3/neat/network"
+	"github.com/steampoweredtaco/goNEAT/v3/neat"
+	"github.com/steampoweredtaco/goNEAT/v3/neat/math"
+	"github.com/steampoweredtaco/goNEAT/v3/neat/network"
 	"math/rand"
 )
 

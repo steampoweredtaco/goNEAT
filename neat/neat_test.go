@@ -2,9 +2,9 @@ package neat
 
 import (
 	"errors"
+	"github.com/steampoweredtaco/goNEAT/v3/neat/math"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/yaricom/goNEAT/v3/neat/math"
 	"os"
 	"testing"
 )

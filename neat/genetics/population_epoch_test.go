@@ -2,9 +2,9 @@ package genetics
 
 import (
 	"github.com/pkg/errors"
+	"github.com/steampoweredtaco/goNEAT/v3/neat"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/yaricom/goNEAT/v3/neat"
 	"math/rand"
 	"testing"
 )

@@ -1,11 +1,11 @@
 package genetics
 
 import (
+	"github.com/steampoweredtaco/goNEAT/v3/neat"
+	"github.com/steampoweredtaco/goNEAT/v3/neat/math"
+	"github.com/steampoweredtaco/goNEAT/v3/neat/network"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/yaricom/goNEAT/v3/neat"
-	"github.com/yaricom/goNEAT/v3/neat/math"
-	"github.com/yaricom/goNEAT/v3/neat/network"
 	"math/rand"
 	"testing"
 )

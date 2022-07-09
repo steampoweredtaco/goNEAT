@@ -3,8 +3,8 @@ package network
 import (
 	"errors"
 	"fmt"
+	"github.com/steampoweredtaco/goNEAT/v3/neat/math"
 	"github.com/stretchr/testify/assert"
-	"github.com/yaricom/goNEAT/v3/neat/math"
 	"testing"
 )
 

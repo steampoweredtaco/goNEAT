@@ -4,8 +4,8 @@ package experiment
 import (
 	"context"
 	"errors"
-	"github.com/yaricom/goNEAT/v3/neat"
-	"github.com/yaricom/goNEAT/v3/neat/genetics"
+	"github.com/steampoweredtaco/goNEAT/v3/neat"
+	"github.com/steampoweredtaco/goNEAT/v3/neat/genetics"
 	"time"
 )
 

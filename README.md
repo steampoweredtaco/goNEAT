@@ -3,16 +3,16 @@
 
 [NeuroEvolution — evolving Artificial Neural Networks topology from the scratch](https://becominghuman.ai/neuroevolution-evolving-artificial-neural-networks-topology-from-the-scratch-d1ebc5540d84)
 
-[![version](https://img.shields.io/github/v/tag/yaricom/goNEAT.svg?sort=semver)](https://github.com/yaricom/goNEAT/releases/latest)
-[![Build Status](https://travis-ci.org/yaricom/goNEAT.svg?branch=master)](https://travis-ci.org/yaricom/goNEAT) [![GoDoc](https://godoc.org/github.com/yaricom/goNEAT/neat?status.svg)](https://godoc.org/github.com/yaricom/goNEAT/neat)
+[![version](https://img.shields.io/github/v/tag/steampoweredtaco/goNEAT.svg?sort=semver)](https://github.com/steampoweredtaco/goNEAT/releases/latest)
+[![Build Status](https://travis-ci.org/steampoweredtaco/goNEAT.svg?branch=master)](https://travis-ci.org/steampoweredtaco/goNEAT) [![GoDoc](https://godoc.org/github.com/steampoweredtaco/goNEAT/neat?status.svg)](https://godoc.org/github.com/steampoweredtaco/goNEAT/neat)
 [![Go version](https://img.shields.io/badge/go-1.17-blue.svg)](https://github.com/moovweb/gvm)
-[![license](https://img.shields.io/github/license/yaricom/goNEAT.svg)](https://github.com/yaricom/goNEAT/blob/master/LICENSE)
-[![yaricom/goNEAT](https://tokei.rs/b1/github/yaricom/goNEAT?category=lines)](https://github.com/yaricom/goNEAT)
-[![Sourcegraph](https://sourcegraph.com/github.com/yaricom/goNEAT/-/badge.svg)](https://sourcegraph.com/github.com/yaricom/goNEAT?badge)
+[![license](https://img.shields.io/github/license/steampoweredtaco/goNEAT.svg)](https://github.com/steampoweredtaco/goNEAT/blob/master/LICENSE)
+[![steampoweredtaco/goNEAT](https://tokei.rs/b1/github/steampoweredtaco/goNEAT?category=lines)](https://github.com/steampoweredtaco/goNEAT)
+[![Sourcegraph](https://sourcegraph.com/github.com/steampoweredtaco/goNEAT/-/badge.svg)](https://sourcegraph.com/github.com/steampoweredtaco/goNEAT?badge)
 
 | Branch | Tests                                                                                      | Coverage                                                                                                                             | Linting                                                                    | Code Security                                                                    |
 |--------|--------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|----------------------------------------------------------------------------|
-| master | [![CI](https://github.com/yaricom/goNEAT/actions/workflows/ci.yml/badge.svg)](https://github.com/yaricom/goNEAT/actions/workflows/ci.yml) | [![codecov](https://codecov.io/gh/yaricom/goNEAT/branch/master/graph/badge.svg?token=as31613DnV)](https://codecov.io/gh/yaricom/goNEAT) | [![Lint](https://github.com/yaricom/goNEAT/actions/workflows/lint.yml/badge.svg)](https://github.com/yaricom/goNEAT/actions/workflows/lint.yml) | [![CodeQL](https://github.com/yaricom/goNEAT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/yaricom/goNEAT/actions/workflows/codeql-analysis.yml) |
+| master | [![CI](https://github.com/steampoweredtaco/goNEAT/actions/workflows/ci.yml/badge.svg)](https://github.com/steampoweredtaco/goNEAT/actions/workflows/ci.yml) | [![codecov](https://codecov.io/gh/steampoweredtaco/goNEAT/branch/master/graph/badge.svg?token=as31613DnV)](https://codecov.io/gh/steampoweredtaco/goNEAT) | [![Lint](https://github.com/steampoweredtaco/goNEAT/actions/workflows/lint.yml/badge.svg)](https://github.com/steampoweredtaco/goNEAT/actions/workflows/lint.yml) | [![CodeQL](https://github.com/steampoweredtaco/goNEAT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/steampoweredtaco/goNEAT/actions/workflows/codeql-analysis.yml) |
 
 ## Overview
 This repository provides implementation of [NeuroEvolution of Augmenting Topologies (NEAT)][1] method written in Go language.
@@ -30,14 +30,14 @@ and their interconnections).
 
 ## Releases
 
-Please do not depend on master as your production branch. Use [releases](https://github.com/yaricom/goNEAT/releases) instead.
+Please do not depend on master as your production branch. Use [releases](https://github.com/steampoweredtaco/goNEAT/releases) instead.
 
 ## Quick Start
 
 You can evaluate the NEAT algorithm performance by running the following command:
 
 ```bash
-cd $GOPATH/src/github.com/yaricom/goNEAT
+cd $GOPATH/src/github.com/steampoweredtaco/goNEAT
 go run executor.go -out ./out/xor -context ./data/xor.neat -genome ./data/xorstartgenes -experiment XOR
 ```
 
@@ -47,7 +47,7 @@ Or
 make run-xor
 ````
 
-The command above will run the [XOR problem solver experiment](https://github.com/yaricom/goNEAT/wiki/XOR-Experiment#the-xor-experiment-with-connected-inputs-in-the-start-genome)
+The command above will run the [XOR problem solver experiment](https://github.com/steampoweredtaco/goNEAT/wiki/XOR-Experiment#the-xor-experiment-with-connected-inputs-in-the-start-genome)
 and save the collected data samples. You can use saved experimental data for analysis using standard plotting
 libraries as in the figure below.
 
@@ -57,7 +57,7 @@ The figure was created using Matplotlib. You can find more details in the [Jupyt
 
 ## Documentation
 
-You can find the algorithm performance evaluation and related documentation in the project's [wiki](https://github.com/yaricom/goNEAT/wiki)
+You can find the algorithm performance evaluation and related documentation in the project's [wiki](https://github.com/steampoweredtaco/goNEAT/wiki)
 
 The goNEAT library saves results of the experiments using [Numpy NPZ](https://numpy.org/doc/stable/reference/generated/numpy.savez.html)
 format, which allows analysis of collected experimental
@@ -72,29 +72,29 @@ samples acquired from your experiments.
 Make sure you have at least GO 1.15.x installed onto your system and execute the following command:
 ```bash
 
-go get github.com/yaricom/goNEAT
+go get github.com/steampoweredtaco/goNEAT
 ```
 
 For new projects, consider using the v2 of the library with the following import:
 
 ```go
-import "github.com/yaricom/goNEAT/v3"
+import "github.com/steampoweredtaco/goNEAT/v3"
 ```
 
 ## Essential Packages
 
-### [`genetics`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/genetics "API documentation") package
+### [`genetics`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/genetics "API documentation") package
 
 The `genetics` package provides the genetic part of the NEAT algorithm describing all the machinery related to
 genome mutations, mating, and speciation of the population of organisms.
 
 It contains implementation of all important types related to the NEAT algorithm:
-* [`Gene`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/genetics#Gene) type in this system specifies a "Connection Gene."
-* [`MIMOControlGene`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/genetics#MIMOControlGene) type is the Multiple-Input Multiple-Output (MIMO) control Gene which allows creation of modular genomes  
-* [`Genome`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/genetics#Genome) type is the primary source of genotype information used to create a phenotype.
-* [`Organism`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/genetics#Organism) type is Genotypes (Genomes) and Phenotypes (Networks) combined with fitness information, i.e. the genotype and phenotype together.
-* [`Population`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/genetics#Population) type is a group of Organisms including their Species
-* [`Species`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/genetics#Species) type  is a group of similar Organisms. Reproduction takes place mostly within a single species, so that compatible organisms can mate.
+* [`Gene`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/genetics#Gene) type in this system specifies a "Connection Gene."
+* [`MIMOControlGene`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/genetics#MIMOControlGene) type is the Multiple-Input Multiple-Output (MIMO) control Gene which allows creation of modular genomes  
+* [`Genome`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/genetics#Genome) type is the primary source of genotype information used to create a phenotype.
+* [`Organism`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/genetics#Organism) type is Genotypes (Genomes) and Phenotypes (Networks) combined with fitness information, i.e. the genotype and phenotype together.
+* [`Population`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/genetics#Population) type is a group of Organisms including their Species
+* [`Species`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/genetics#Species) type  is a group of similar Organisms. Reproduction takes place mostly within a single species, so that compatible organisms can mate.
 
 Additionally, it contains variety of utility functions to serialise/deserialize specified above types using two
 supported data formats:
@@ -102,44 +102,44 @@ supported data formats:
 * YAML
 
 The current implementation supports sequential and parallel execution of evolution epoch which controlled by
-[related parameter](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat#EpochExecutorType) in the NEAT context options.
+[related parameter](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat#EpochExecutorType) in the NEAT context options.
 
-### [`math`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/math "API documentation") package
+### [`math`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/math "API documentation") package
 
 Package `math` defines standard mathematical primitives used by the NEAT algorithm as well as utility functions
 
-### [`network`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/network "API documentation") package
+### [`network`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/network "API documentation") package
 
 Package `network` provides data structures and utilities to describe Artificial Neural Network and network solvers.
 
 The most important types are:
-* [`NNode`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/network#NNode) type defines the node of the network and is a part of organism's genotype as well as phenotype
-* [`Link`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/network#Link) type is a connection from one node to another with an associated weight.
-* [`Network`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/network#Network) type is a collection of all nodes within an organism's phenotype, which effectively defines Neural Network topology.
-* [`Solver`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/network#Solver) type defines network solver interface, which allows propagation of the activation waves through the underlying network graph.
+* [`NNode`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/network#NNode) type defines the node of the network and is a part of organism's genotype as well as phenotype
+* [`Link`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/network#Link) type is a connection from one node to another with an associated weight.
+* [`Network`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/network#Network) type is a collection of all nodes within an organism's phenotype, which effectively defines Neural Network topology.
+* [`Solver`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/network#Solver) type defines network solver interface, which allows propagation of the activation waves through the underlying network graph.
 
 The current implementation supports two types of network solvers: 
-* [`FastModularNetworkSolver`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/network#FastModularNetworkSolver) is the network solver implementation to be used for large neural networks simulation.
+* [`FastModularNetworkSolver`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/network#FastModularNetworkSolver) is the network solver implementation to be used for large neural networks simulation.
 * Standard Network Solver implemented by the `Network` type
 
 The topology of the Neural Network represented by the `Network` fully supports the directed graph presentation as defined
 by [Gonum graph](https://pkg.go.dev/gonum.org/v1/gonum/graph) package. This feature can be used for analysis of the network
 topology as well as encoding the graph in variety of popular graph presentation formats.
 
-### [`experiment`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/experiment "API documentation") package
+### [`experiment`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/experiment "API documentation") package
 
 Package `experiment` defines standard evolutionary epochs evaluators and experimental data samples collectors. It provides
 standardised approach to define experiments using the NEAT algorithm implementation.
 
 The most important type here is:
-* [`GenerationEvaluator`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/experiment#GenerationEvaluator) is the interface to be implemented by custom experiments
+* [`GenerationEvaluator`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/experiment#GenerationEvaluator) is the interface to be implemented by custom experiments
 
-You can find examples of `GenerationEvaluator` implementations at [examples](https://github.com/yaricom/goNEAT/tree/master/examples):
-* [`pole`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/examples/pole) - single-, double-pole balancing experiments
-* [`xor`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/examples/xor) - XOR solver experiment
+You can find examples of `GenerationEvaluator` implementations at [examples](https://github.com/steampoweredtaco/goNEAT/tree/master/examples):
+* [`pole`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/examples/pole) - single-, double-pole balancing experiments
+* [`xor`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/examples/xor) - XOR solver experiment
 
 The following code snippet demonstrates how to run experiments using different implementations of the `GenerationEvaluator` 
-and the [`experiment.Execute`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/experiment#Execute):
+and the [`experiment.Execute`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/experiment#Execute):
 
 ```go
 // create experiment
@@ -179,15 +179,15 @@ go func() {
 }()
 ```
 
-For more details, take a look at the experiment [executor](https://github.com/yaricom/goNEAT/blob/master/executor.go) 
+For more details, take a look at the experiment [executor](https://github.com/steampoweredtaco/goNEAT/blob/master/executor.go) 
 implementation provided with the goNEAT library.
 
-### [`neat`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat "API documentation") package
+### [`neat`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat "API documentation") package
 
 Package `neat` is an entry point to the NEAT algorithm. It defines the NEAT execution context and configuration
 options.
 
-You can find all available configuration options in the [`Options`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat#Options).
+You can find all available configuration options in the [`Options`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat#Options).
 
 The configuration options can be saved either using plain text or the YAML format. We recommend using the YAML format 
 for new projects because it allows for a more flexible setup and detailed documentation of the configuration 
@@ -219,7 +219,7 @@ options, err := neat.LoadNeatOptions(optFile)
 
 ## Phenotype Network Graph Visualization
 
-The [`formats`](https://pkg.go.dev/github.com/yaricom/goNEAT/v3/neat/network/formats "formats") package provides support for various network graph serialization formats which can be used to visualize the graph with help of well-known tools. Currently, we have support for DOT and CytoscapeJS data formats.
+The [`formats`](https://pkg.go.dev/github.com/steampoweredtaco/goNEAT/v3/neat/network/formats "formats") package provides support for various network graph serialization formats which can be used to visualize the graph with help of well-known tools. Currently, we have support for DOT and CytoscapeJS data formats.
 
 ### The CytoscapeJS JSON format
 
@@ -228,8 +228,8 @@ Another important data format supported by the library is the `CytoscapeJS JSON`
 The following code snippet demonstrates how this can be done:
 ```go
 import (
-"github.com/yaricom/goNEAT/v3/neat/network"
-"github.com/yaricom/goNEAT/v3/neat/network/formats"
+"github.com/steampoweredtaco/goNEAT/v3/neat/network"
+"github.com/steampoweredtaco/goNEAT/v3/neat/network/formats"
 "bytes"
 "fmt"
 )
@@ -530,7 +530,7 @@ The above CYJS can be visualized as following with [Cytoscape App](https://cytos
 
 ![Example Network](contents/example/example.svg)
 
-You can find more **interesting visualizations** at project's [Wiki](https://github.com/yaricom/goNEAT/wiki/Network-Graph-Visualization).
+You can find more **interesting visualizations** at project's [Wiki](https://github.com/steampoweredtaco/goNEAT/wiki/Network-Graph-Visualization).
 
 ### The DOT format
 The `Network` can be serialized into popular [GraphViz DOT](http://www.graphviz.org/doc/info/lang.html)
@@ -538,8 +538,8 @@ format. The following code snippet demonstrates how this can be done:
 
 ```go
 import (
-"github.com/yaricom/goNEAT/v3/neat/network"
-"github.com/yaricom/goNEAT/v3/neat/network/formats"
+"github.com/steampoweredtaco/goNEAT/v3/neat/network"
+"github.com/steampoweredtaco/goNEAT/v3/neat/network/formats"
 "bytes"
 "fmt"
 )
@@ -582,17 +582,17 @@ The DOT output can be saved into the file for subsequent visualization by variet
 ## Conclusion
 
 The experiments described in this work confirm that introduced NEAT algorithm implementation can evolve new structures in 
-the _Artificial Neural Networks_ ([XOR experiments](https://github.com/yaricom/goNEAT/wiki/XOR-Experiment)) and can solve reinforcement learning 
-tasks under conditions of incomplete knowledge ([single-pole balancing](https://github.com/yaricom/goNEAT/wiki/The-single-pole-balancing-experiment) and
-[double-pole balancing](https://github.com/yaricom/goNEAT/wiki/Double-Pole-Balancing-Experiments)).
+the _Artificial Neural Networks_ ([XOR experiments](https://github.com/steampoweredtaco/goNEAT/wiki/XOR-Experiment)) and can solve reinforcement learning 
+tasks under conditions of incomplete knowledge ([single-pole balancing](https://github.com/steampoweredtaco/goNEAT/wiki/The-single-pole-balancing-experiment) and
+[double-pole balancing](https://github.com/steampoweredtaco/goNEAT/wiki/Double-Pole-Balancing-Experiments)).
 
 We hope that you will find great applications in your research and work projects for the provided NEAT algorithm's 
 implementation as well as utilities to run experiments while collecting relevant data samples.
 
 ## Projects Using goNEAT library
 * [Learning to play Asteroids in Golang with NEAT](https://maori.geek.nz/learning-to-play-asteroids-in-golang-with-neat-f44c3472938f) - interesting article about implementation of the intelligent agent to play classic Asteroid game using the NEAT algorithm.
-* [NEAT with Novelty Search](https://github.com/yaricom/goNEAT_NS) - implementation of the Novelty Search optimization algorithm for solution search in the deceptive environments.
-* [Evolvable-Substrate HyperNEAT](https://github.com/yaricom/goESHyperNEAT) - is hypercube-based extension of the NEAT allowing to encode ANNs in the substrate with specific geometric topology and with significant number of neural units.
+* [NEAT with Novelty Search](https://github.com/steampoweredtaco/goNEAT_NS) - implementation of the Novelty Search optimization algorithm for solution search in the deceptive environments.
+* [Evolvable-Substrate HyperNEAT](https://github.com/steampoweredtaco/goESHyperNEAT) - is hypercube-based extension of the NEAT allowing to encode ANNs in the substrate with specific geometric topology and with significant number of neural units.
 
 ## References
 

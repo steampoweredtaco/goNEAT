@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/gob"
 	"fmt"
-	"github.com/yaricom/goNEAT/v3/neat"
+	"github.com/steampoweredtaco/goNEAT/v3/neat"
 	"sort"
 	"sync"
 )

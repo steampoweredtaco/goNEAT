@@ -2,11 +2,11 @@ package pole
 
 import (
 	"fmt"
+	"github.com/steampoweredtaco/goNEAT/v3/examples/utils"
+	experiment2 "github.com/steampoweredtaco/goNEAT/v3/experiment"
+	"github.com/steampoweredtaco/goNEAT/v3/neat"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/yaricom/goNEAT/v3/examples/utils"
-	experiment2 "github.com/yaricom/goNEAT/v3/experiment"
-	"github.com/yaricom/goNEAT/v3/neat"
 	"math/rand"
 	"testing"
 )
