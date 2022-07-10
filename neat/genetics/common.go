@@ -57,7 +57,6 @@ func TraitWithId(traitId int, traits []*neat.Trait) *neat.Trait {
 }
 
 type NodeLookupCache struct {
-	nodes   []*network.NNode
 	nodeMap map[int]*network.NNode
 }
 
