@@ -298,7 +298,7 @@ func (s *Species) reproduce(ctx context.Context, generation int, pop *Population
 
 			// If we have a super_champ (Population champion), finish off some special clones
 			mom := theChamp
-			newGenome, err := mom.Genotype.duplicate(count)
+			newGenome, err := mom.Genotype.Duplicate(count)
 			if err != nil {
 				return nil, err
 			}
@@ -344,7 +344,7 @@ func (s *Species) reproduce(ctx context.Context, generation int, pop *Population
 
 			// If we have a Species champion, just clone it
 			mom := theChamp // Mom is the champ
-			newGenome, err := mom.Genotype.duplicate(count)
+			newGenome, err := mom.Genotype.Duplicate(count)
 			if err != nil {
 				return nil, err
 			}
@@ -363,7 +363,7 @@ func (s *Species) reproduce(ctx context.Context, generation int, pop *Population
 			// Apply mutations
 			orgNum := rand.Int31n(int32(poolSize)) // select random mom
 			mom := s.Organisms[orgNum]
-			newGenome, err := mom.Genotype.duplicate(count)
+			newGenome, err := mom.Genotype.Duplicate(count)
 			if err != nil {
 				return nil, err
 			}

@@ -77,7 +77,7 @@ func TestGenome_Compatibility_Fast(t *testing.T) {
 func TestGenome_Compatibility_Duplicate(t *testing.T) {
 	//rand.Seed(42)
 	gnome1 := buildTestGenome(1)
-	gnome2, err := gnome1.duplicate(2)
+	gnome2, err := gnome1.Duplicate(2)
 	require.NoError(t, err, "duplication failed")
 
 	// Configuration

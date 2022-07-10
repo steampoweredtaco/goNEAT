@@ -144,7 +144,7 @@ func (p *Population) Innovations() []Innovation {
 func (p *Population) spawn(g *Genome, opts *neat.Options) (err error) {
 	for count := 0; count < opts.PopSize; count++ {
 		// make genome duplicate for new organism
-		newGenome, err := g.duplicate(count)
+		newGenome, err := g.Duplicate(count)
 		if err != nil {
 			return err
 		}
