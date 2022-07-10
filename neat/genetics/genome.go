@@ -490,14 +490,16 @@ func (g *Genome) Duplicate(newId int) (*Genome, error) {
 
 	// Duplicate Genes
 	genesDup := make([]*Gene, len(g.Genes))
+
+	lc := NewNodeLookupCache(nodesDup)
 	for i, gn := range g.Genes {
 		// First find the nodes connected by the gene's link
-		inNode := NodeWithId(gn.Link.InNode.Id, nodesDup)
+		inNode := lc.NodeWithId(gn.Link.InNode.Id)
 		if inNode == nil {
 			return nil, fmt.Errorf("incoming node: %d not found for gene %s",
 				gn.Link.InNode.Id, gn.String())
 		}
-		outNode := NodeWithId(gn.Link.OutNode.Id, nodesDup)
+		outNode := lc.NodeWithId(gn.Link.OutNode.Id)
 		if outNode == nil {
 			return nil, fmt.Errorf("outgoing node: %d not found for gene %s",
 				gn.Link.OutNode.Id, gn.String())
@@ -529,7 +531,7 @@ func (g *Genome) Duplicate(newId int) (*Genome, error) {
 			nodeCopy := network.NewNNodeCopy(controlNode, assocTrait)
 			// add incoming links
 			for _, l := range controlNode.Incoming {
-				inNode := NodeWithId(l.InNode.Id, nodesDup)
+				inNode := lc.NodeWithId(l.InNode.Id)
 				if inNode == nil {
 					return nil, fmt.Errorf("incoming node: %d not found for control node: %d",
 						l.InNode.Id, controlNode.Id)
@@ -540,7 +542,7 @@ func (g *Genome) Duplicate(newId int) (*Genome, error) {
 
 			// add outgoing links
 			for _, l := range controlNode.Outgoing {
-				outNode := NodeWithId(l.OutNode.Id, nodesDup)
+				outNode := lc.NodeWithId(l.OutNode.Id)
 				if outNode == nil {
 					return nil, fmt.Errorf("outgoing node: %d not found for control node: %d",
 						l.InNode.Id, controlNode.Id)

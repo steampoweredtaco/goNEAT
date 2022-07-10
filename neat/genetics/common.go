@@ -56,6 +56,32 @@ func TraitWithId(traitId int, traits []*neat.Trait) *neat.Trait {
 	return nil
 }
 
+type NodeLookupCache struct {
+	nodes   []*network.NNode
+	nodeMap map[int]*network.NNode
+}
+
+func (c *NodeLookupCache) ReIndex(nodes []*network.NNode) {
+	c.nodeMap = make(map[int]*network.NNode)
+	for _, n := range nodes {
+		c.nodeMap[n.Id] = n
+	}
+}
+
+func (c NodeLookupCache) NodeWithId(id int) *network.NNode {
+	n, found := c.nodeMap[id]
+	if !found {
+		return nil
+	}
+	return n
+}
+
+func NewNodeLookupCache(nodes []*network.NNode) *NodeLookupCache {
+	n := &NodeLookupCache{}
+	n.ReIndex(nodes)
+	return n
+}
+
 // NodeWithId Utility to select NNode with given ID from provided NNodes array
 func NodeWithId(nodeId int, nodes []*network.NNode) *network.NNode {
 	if nodeId != 0 && nodes != nil {
