@@ -210,21 +210,7 @@ func (g *Genome) mutateAddLink(innovations InnovationsObserver, opts *neat.Optio
 		}
 
 		if !linkExists {
-			// These are used to avoid getting stuck in an infinite loop checking for recursion
-			// Note that we check for recursion to control the frequency of adding recurrent links rather
-			// than to prevent any particular kind of error
-			thresh := nodesLen * nodesLen
-			count := 0
-			recurFlag := g.Phenotype.IsRecurrent(node1.PhenotypeAnalogue, node2.PhenotypeAnalogue, &count, thresh)
-
-			// NOTE: A loop doesn't really matter - just debug output it
-			if count > thresh {
-				if neat.LogLevel == neat.LogLevelDebug {
-					neat.DebugLog(
-						fmt.Sprintf("GENOME: LOOP DETECTED DURING A RECURRENCY CHECK -> "+
-							"node in: %s <-> node out: %s", node1.PhenotypeAnalogue, node2.PhenotypeAnalogue))
-				}
-			}
+			recurFlag := g.Phenotype.IsRecurrent(node1.PhenotypeAnalogue, node2.PhenotypeAnalogue, nil)
 
 			// Make sure it finds the right kind of link (recurrent or not)
 			if (!recurFlag && doRecur) || (recurFlag && !doRecur) {

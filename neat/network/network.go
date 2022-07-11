@@ -400,24 +400,26 @@ func (n *Network) Complexity() int {
 
 // IsRecurrent This checks a POTENTIAL link between a potential in_node
 // and potential out_node to see if it must be recurrent.
-// Use count and thresh to jump out in the case of an infinite loop.
-func (n *Network) IsRecurrent(inNode, outNode *NNode, count *int, thresh int) bool {
-	// Count the node as visited
-	*count++
-
-	if *count > thresh {
-		return false // Short out the whole thing - loop detected
+// uses visted to determine if infinit recursion and second bool indcates if it is.
+func (n *Network) IsRecurrent(inNode, outNode *NNode, visted map[int]struct{}) bool {
+	if visted == nil {
+		visted = make(map[int]struct{})
+	}
+	if _, found := visted[inNode.Id]; found {
+		// another path would be further and might find it or it can't be reached.
+		return false
 	}
 
 	if inNode == outNode {
 		return true
 	} else {
 		// Check back on all links ...
+		visted[inNode.Id] = struct{}{}
 		for _, link := range inNode.Incoming {
 			// But skip links that are already recurrent -
 			// We want to check back through the forward flow of signals only
 			if !link.IsRecurrent {
-				if n.IsRecurrent(link.InNode, outNode, count, thresh) {
+				if result := n.IsRecurrent(link.InNode, outNode, visted); result {
 					return true
 				}
 			}
