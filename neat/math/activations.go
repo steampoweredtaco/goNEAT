@@ -25,6 +25,7 @@ const (
 	// The other activators assortment
 	TanhActivation
 	GaussianBipolarActivation
+	GaussianActivation
 	LinearActivation
 	LinearAbsActivation
 	LinearClippedActivation
@@ -32,6 +33,8 @@ const (
 	SignActivation
 	SineActivation
 	StepActivation
+	SquareActivation
+	ReluActivation
 
 	// The modular activators (with multiple inputs/outputs)
 	MultiplyModuleActivation
@@ -82,6 +85,7 @@ func NewNodeActivatorsFactory() *NodeActivatorsFactory {
 
 	af.Register(TanhActivation, hyperbolicTangent, "TanhActivation")
 	af.Register(GaussianBipolarActivation, bipolarGaussian, "GaussianBipolarActivation")
+	af.Register(GaussianActivation, gaussian, "GaussianActivation")
 	af.Register(LinearActivation, linear, "LinearActivation")
 	af.Register(LinearAbsActivation, absoluteLinear, "LinearAbsActivation")
 	af.Register(LinearClippedActivation, clippedLinear, "LinearClippedActivation")
@@ -89,6 +93,8 @@ func NewNodeActivatorsFactory() *NodeActivatorsFactory {
 	af.Register(SignActivation, signFunction, "SignActivation")
 	af.Register(SineActivation, sineFunction, "SineActivation")
 	af.Register(StepActivation, stepFunction, "StepActivation")
+	af.Register(SquareActivation, squareFunction, "SquareActivation")
+	af.Register(ReluActivation, reluFunction, "ReluActivation")
 
 	// register neuron modules activators
 	af.RegisterModule(MultiplyModuleActivation, multiplyModule, "MultiplyModuleActivation")
@@ -225,6 +231,9 @@ var (
 	bipolarGaussian = func(input float64, auxParams []float64) float64 {
 		return 2.0*math.Exp(-math.Pow(input*2.5, 2.0)) - 1.0
 	}
+	gaussian = func(input float64, auxParams []float64) float64 {
+		return math.Exp(-math.Pow(input, 2.0))
+	}
 	// The absolute linear
 	absoluteLinear = func(input float64, auxParams []float64) float64 {
 		return math.Abs(input)
@@ -269,6 +278,15 @@ var (
 		} else {
 			return 1.0
 		}
+	}
+	squareFunction = func(input float64, auxParams []float64) float64 {
+		return input * input
+	}
+	reluFunction = func(input float64, auxParams []float64) float64 {
+		if input < 0 {
+			return 0
+		}
+		return input
 	}
 )
 
