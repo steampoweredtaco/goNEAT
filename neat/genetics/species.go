@@ -115,7 +115,22 @@ func (s *Species) removeOrganism(org *Organism) (bool, error) {
 // Can change the fitness of the organisms in the Species to be higher for very new species (to protect them).
 // Divides the fitness by the size of the Species, so that fitness is "shared" by the species.
 // NOTE: Invocation of this method will result of species organisms sorted by fitness in descending order, i.e. most fit will be first.
-func (s *Species) adjustFitness(opts *neat.Options) {
+func (s *Species) AdjustFitnessAndPickEliminationsStandard(opts *neat.Options) {
+	s.AdjustFitnessStandard(opts)
+
+	// Decide how many get to reproduce based on survival_thresh * pop_size
+	// Adding 1.0 ensures that at least one will survive
+	numParents := int(math.Floor(opts.SurvivalThresh*float64(len(s.Organisms)) + 1.0))
+
+	// Mark for death those who are ranked too low to be parents
+	s.Organisms[0].isChampion = true // Mark the champ as such
+	for c := numParents; c < len(s.Organisms); c++ {
+		s.Organisms[c].toEliminate = true
+	}
+}
+
+// Adjust just the fitness of each organism based age drop offs and stagnation.
+func (s *Species) AdjustFitnessStandard(opts *neat.Options) {
 	ageDebt := (s.Age - s.AgeOfLastImprovement + 1) - opts.DropOffAge
 	if ageDebt == 0 {
 		ageDebt = 1
@@ -145,6 +160,7 @@ func (s *Species) adjustFitness(opts *neat.Options) {
 
 		// Share fitness with the species
 		org.Fitness = org.Fitness / float64(len(s.Organisms))
+		org.lastAdjustedStandardFitness = org.Fitness
 	}
 
 	// Sort the population (most fit first) and mark for death those after : survival_thresh * pop_size
@@ -156,15 +172,6 @@ func (s *Species) adjustFitness(opts *neat.Options) {
 		s.MaxFitnessEver = s.Organisms[0].originalFitness
 	}
 
-	// Decide how many get to reproduce based on survival_thresh * pop_size
-	// Adding 1.0 ensures that at least one will survive
-	numParents := int(math.Floor(opts.SurvivalThresh*float64(len(s.Organisms)) + 1.0))
-
-	// Mark for death those who are ranked too low to be parents
-	s.Organisms[0].isChampion = true // Mark the champ as such
-	for c := numParents; c < len(s.Organisms); c++ {
-		s.Organisms[c].toEliminate = true
-	}
 }
 
 // ComputeMaxAndAvgFitness Computes maximal and average fitness of species
@@ -250,7 +257,7 @@ func (s *Species) findChampion() *Organism {
 
 // Perform mating and mutation to form next generation. The sorted_species is ordered to have best species in the beginning.
 // Returns list of baby organisms as a result of reproduction of all organisms in this species.
-func (s *Species) reproduce(ctx context.Context, generation int, pop *Population, sortedSpecies []*Species) ([]*Organism, error) {
+func (s *Species) Reproduce(ctx context.Context, generation int, pop *Population, sortedSpecies []*Species) ([]*Organism, error) {
 	opts, found := neat.FromContext(ctx)
 	if !found {
 		return nil, neat.ErrNEATOptionsNotFound
@@ -561,6 +568,12 @@ func (s *Species) String() string {
 		str += fmt.Sprintf("\t%s\n", o)
 	}
 	return str
+}
+
+func (s *Species) RefreshBasicSharedFitness() {
+	for _, org := range s.Organisms {
+		org.Fitness = org.lastAdjustedStandardFitness / float64(len(s.Organisms))
+	}
 }
 
 // This is used for list sorting of Species by original fitness of the best organism with the highest fitness going first.

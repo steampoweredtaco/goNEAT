@@ -44,6 +44,9 @@ type Organism struct {
 	// A fitness measure that won't change during fitness adjustments of population's epoch evaluation
 	originalFitness float64
 
+	// Keep the last adjusted fitness before normalized to a shared fitness
+	lastAdjustedStandardFitness float64
+
 	// Marker for destruction of inferior Organisms
 	toEliminate bool
 	// Marks the species champion
@@ -58,6 +61,8 @@ type Organism struct {
 
 	// DEBUG variable - highest fitness of champ
 	highestFitness float64
+
+	Age uint
 
 	// Track its origin - for debugging or analysis - we can tell how the organism was born
 	mutationStructBaby bool

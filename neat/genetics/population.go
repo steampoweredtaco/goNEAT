@@ -2,6 +2,7 @@ package genetics
 
 import (
 	"context"
+	"delatevolution/utils"
 	"errors"
 	"fmt"
 	"github.com/steampoweredtaco/goNEAT/v3/neat"
@@ -76,24 +77,37 @@ func NewPopulationRandom(in, out, maxHidden int, recurrent bool, linkProb float6
 		return nil, fmt.Errorf("wrong population size in the context: %d", opts.PopSize)
 	}
 
-	pop := newPopulation()
+	pop := NewEmptyPopulation(in, out, maxHidden)
 	for count := 0; count < opts.PopSize; count++ {
-		gen := newGenomeRand(count, in, out, rand.Intn(maxHidden), maxHidden, recurrent, linkProb, opts)
-		org, err := NewOrganism(0.0, gen, 1)
-		if err != nil {
-			return nil, err
+		_, err2 := NewGenesisOrganismForPopulation(in, out, maxHidden, recurrent, linkProb, opts, count, pop)
+		if err2 != nil {
+			return nil, err2
 		}
-		pop.Organisms = append(pop.Organisms, org)
 	}
-	pop.nextNodeId = int32(in + out + maxHidden + 1)
-	pop.nextInnovNum = int64((in+out+maxHidden)*(in+out+maxHidden) + 1)
 
-	err := pop.speciate(opts.NeatContext(), pop.Organisms)
+	err := pop.Speciate(opts.NeatContext(), pop.Organisms)
 	if err != nil {
 		return nil, err
 	}
 
 	return pop, nil
+}
+
+func NewEmptyPopulation(in int, out int, maxHidden int) *Population {
+	pop := newPopulation()
+	pop.nextNodeId = int32(in + out + maxHidden + 1)
+	pop.nextInnovNum = int64((in+out+maxHidden)*(in+out+maxHidden) + 1)
+	return pop
+}
+
+func NewGenesisOrganismForPopulation(in int, out int, maxHidden int, recurrent bool, linkProb float64, opts *neat.Options, count int, pop *Population) (*Organism, error) {
+	gen := newGenomeRand(count, in, out, rand.Intn(maxHidden), maxHidden, recurrent, linkProb, opts)
+	org, err := NewOrganism(0.0, gen, 1)
+	if err != nil {
+		return nil, err
+	}
+	pop.Organisms = append(pop.Organisms, org)
+	return org, nil
 }
 
 // Verify is to run verification on all Genomes in this Population (Debugging)
@@ -173,7 +187,7 @@ func (p *Population) spawn(g *Genome, opts *neat.Options) (err error) {
 	}
 
 	// Separate the new Population into species
-	err = p.speciate(opts.NeatContext(), p.Organisms)
+	err = p.Speciate(opts.NeatContext(), p.Organisms)
 
 	return err
 }
@@ -205,9 +219,9 @@ func (p *Population) checkBestSpeciesAlive(bestSpeciesId int, bestSpeciesReprodu
 	return nil
 }
 
-// speciate separates given organisms into species of this population by checking compatibilities against a threshold.
+// Speciate separates given organisms into species of this population by checking compatibilities against a threshold.
 // Any organism that is not compatible with the first organism in any existing species becomes a new species.
-func (p *Population) speciate(ctx context.Context, organisms []*Organism) error {
+func (p *Population) Speciate(ctx context.Context, organisms []*Organism) error {
 	if len(organisms) == 0 {
 		return errors.New("no organisms to speciate from")
 	}
@@ -271,6 +285,19 @@ func (p *Population) speciate(ctx context.Context, organisms []*Organism) error 
 // Removes zero offspring species from this population, i.e. species which will not have any offspring organism belonging to it
 // after reproduction cycle due to its fitness stagnation
 func (p *Population) purgeZeroOffspringSpecies(generation int) {
+	p.CalculateExpectedOffspring(generation)
+
+	// Remove stagnated species which can not produce any offspring
+	speciesToKeep := make([]*Species, 0)
+	for _, sp := range p.Species {
+		if sp.ExpectedOffspring > 0 {
+			speciesToKeep = append(speciesToKeep, sp)
+		}
+	}
+	p.Species = speciesToKeep
+}
+
+func (p *Population) CalculateExpectedOffspring(generation int) {
 	// Used to compute average fitness over all Organisms
 	total := 0.0
 	totalOrganisms := len(p.Organisms)
@@ -345,15 +372,6 @@ func (p *Population) purgeZeroOffspringSpecies(generation int) {
 			}
 		}
 	}
-
-	// Remove stagnated species which can not produce any offspring
-	speciesToKeep := make([]*Species, 0)
-	for _, sp := range p.Species {
-		if sp.ExpectedOffspring > 0 {
-			speciesToKeep = append(speciesToKeep, sp)
-		}
-	}
-	p.Species = speciesToKeep
 }
 
 // When population stagnation detected the delta coding will be performed in attempt to fix this
@@ -486,7 +504,7 @@ func (p *Population) purgeOrganisms() error {
 }
 
 // Destroy and remove the old generation of the organisms and of the species
-func (p *Population) purgeOldGeneration(bestSpeciesId int) error {
+func (p *Population) PurgeOldGeneration(bestSpeciesId int) error {
 	for _, org := range p.Organisms {
 		// Remove the organism from its Species
 		_, err := org.Species.removeOrganism(org)
@@ -506,7 +524,7 @@ func (p *Population) purgeOldGeneration(bestSpeciesId int) error {
 
 // Removes all empty Species and age ones that survive.
 // As this happens, create master organism list for the new generation.
-func (p *Population) purgeOrAgeSpecies() {
+func (p *Population) PurgeOrAgeSpecies() {
 	orgCount := 0
 	speciesToKeep := make([]*Species, 0)
 	for _, currSpecies := range p.Species {
@@ -536,5 +554,32 @@ func (p *Population) purgeOrAgeSpecies() {
 	if neat.LogLevel == neat.LogLevelDebug {
 		neat.DebugLog(fmt.Sprintf("POPULATION: # of species survived: %d, # of organisms survived: %d\n",
 			len(p.Species), len(p.Organisms)))
+	}
+}
+
+func (p *Population) ClearInovations() {
+	p.innovations = make([]Innovation, 0)
+}
+
+func (p *Population) RemoveOrganism(org *Organism) {
+	for i, _ := range org.Species.Organisms {
+		if org.Species.Organisms[i] != org {
+			continue
+		}
+		org.Species.Organisms = utils.Remove(org.Species.Organisms, i)
+		if len(org.Species.Organisms) == 0 {
+			p.RemoveSpecies(org.Species)
+		}
+		break
+	}
+}
+
+func (p *Population) RemoveSpecies(species *Species) {
+	for i, _ := range p.Species {
+		if p.Species[i] != species {
+			continue
+		}
+		p.Species = utils.Remove(p.Species, i)
+		break
 	}
 }

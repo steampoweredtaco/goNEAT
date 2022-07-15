@@ -95,7 +95,7 @@ func TestSpecies_Write_writeError(t *testing.T) {
 	assert.EqualError(t, err, alwaysErrorText)
 }
 
-// Tests Species adjustFitness
+// Tests Species AdjustFitnessAndPickEliminationsStandard
 func TestSpecies_adjustFitness(t *testing.T) {
 	sp, err := buildSpeciesWithOrganisms(1)
 	require.NoError(t, err, "failed to build species")
@@ -106,7 +106,7 @@ func TestSpecies_adjustFitness(t *testing.T) {
 		SurvivalThresh:  0.5,
 		AgeSignificance: 0.5,
 	}
-	sp.adjustFitness(&conf)
+	sp.AdjustFitnessAndPickEliminationsStandard(&conf)
 
 	// test results
 	assert.True(t, sp.Organisms[0].isChampion)
@@ -197,7 +197,7 @@ func TestSpecies_reproduce_fail(t *testing.T) {
 
 	opts := neat.Options{}
 
-	babies, err := sp.reproduce(opts.NeatContext(), 1, nil, nil)
+	babies, err := sp.Reproduce(opts.NeatContext(), 1, nil, nil)
 	assert.Empty(t, babies, "no offsprings expected")
 	assert.EqualError(t, err, "attempt to reproduce out of empty species")
 }
@@ -232,7 +232,7 @@ func TestSpecies_reproduce(t *testing.T) {
 
 	pop.Species[0].ExpectedOffspring = 11
 
-	babies, err := pop.Species[0].reproduce(opts.NeatContext(), 1, pop, sortedSpecies)
+	babies, err := pop.Species[0].Reproduce(opts.NeatContext(), 1, pop, sortedSpecies)
 	require.NoError(t, err, "failed to reproduce")
 	require.NotEmpty(t, babies, "offsprings expected")
 

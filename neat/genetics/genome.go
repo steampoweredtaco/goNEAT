@@ -24,7 +24,7 @@ import (
 // (4) Control genes allows to receive inputs from multiple independent genome modules and output processed signal to the
 //     multitude of output locations
 //
-// Each Gene in (3) has a marker telling when it arose historically. Thus, these Genes can be used to speciate the
+// Each Gene in (3) has a marker telling when it arose historically. Thus, these Genes can be used to Speciate the
 // population, and the list of Genes provide an evolutionary history of innovation and link-building.
 type Genome struct {
 	// The genome ID

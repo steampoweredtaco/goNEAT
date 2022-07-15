@@ -55,7 +55,7 @@ func (s *SequentialPopulationEpochExecutor) prepareForReproduction(ctx context.C
 	// the species size to "share" fitness within a species. Then, within each Species, mark for death those below
 	// survival_thresh * average
 	for _, sp := range p.Species {
-		sp.adjustFitness(opts)
+		sp.AdjustFitnessAndPickEliminationsStandard(opts)
 	}
 
 	// find and remove species unable to produce offspring due to fitness stagnation
@@ -126,7 +126,7 @@ func (s *SequentialPopulationEpochExecutor) reproduce(ctx context.Context, gener
 	babies := make([]*Organism, 0)
 
 	for _, sp := range p.Species {
-		repBabies, err := sp.reproduce(ctx, generation, p, s.sortedSpecies)
+		repBabies, err := sp.Reproduce(ctx, generation, p, s.sortedSpecies)
 		if err != nil {
 			return err
 		}
@@ -146,8 +146,8 @@ func (s *SequentialPopulationEpochExecutor) reproduce(ctx context.Context, gener
 			opts.PopSize, len(babies))
 	}
 
-	// speciate fresh progeny
-	err := p.speciate(ctx, babies)
+	// Speciate fresh progeny
+	err := p.Speciate(ctx, babies)
 
 	neat.DebugLog("POPULATION: >>>>> Reproduction Complete")
 
@@ -157,14 +157,14 @@ func (s *SequentialPopulationEpochExecutor) reproduce(ctx context.Context, gener
 // finalizeReproduction is to finalizeReproduction reproduction cycle
 func (s *SequentialPopulationEpochExecutor) finalizeReproduction(_ context.Context, pop *Population) error {
 	// Destroy and remove the old generation from the organisms and species
-	err := pop.purgeOldGeneration(s.bestSpeciesId)
+	err := pop.PurgeOldGeneration(s.bestSpeciesId)
 	if err != nil {
 		return err
 	}
 
 	// Removes all empty Species and age ones that survive.
 	// As this happens, create master organism list for the new generation.
-	pop.purgeOrAgeSpecies()
+	pop.PurgeOrAgeSpecies()
 
 	// Remove the innovations of the current generation
 	pop.innovations = make([]Innovation, 0)
@@ -172,7 +172,7 @@ func (s *SequentialPopulationEpochExecutor) finalizeReproduction(_ context.Conte
 	// Check to see if the best species died somehow. We don't want this to happen!!!
 	err = pop.checkBestSpeciesAlive(s.bestSpeciesId, s.bestSpeciesReproduced)
 
-	// DEBUG: Checking the top organism's duplicate in the next gen
+	// DEBUG: Checking the top organism's uplicate in the next gen
 	// This prints the champ's child to the screen
 	if neat.LogLevel == neat.LogLevelDebug && err != nil {
 		for _, org := range pop.Organisms {
@@ -229,7 +229,7 @@ func (p *ParallelPopulationEpochExecutor) reproduce(ctx context.Context, generat
 		// run in separate GO thread
 		go func(ctx context.Context, sp *Species, generation int, p *Population, sortedSpecies []*Species, resChan chan<- reproductionResult, wg *sync.WaitGroup) {
 			defer wg.Done()
-			babies, err := sp.reproduce(ctx, generation, p, sortedSpecies)
+			babies, err := sp.Reproduce(ctx, generation, p, sortedSpecies)
 
 			res := reproductionResult{}
 			if err == nil {
@@ -260,7 +260,7 @@ func (p *ParallelPopulationEpochExecutor) reproduce(ctx context.Context, generat
 	wg.Wait()
 	close(resChan)
 
-	// read reproduction results, instantiate progeny and speciate over population
+	// read reproduction results, instantiate progeny and Speciate over population
 	babies := make([]*Organism, 0)
 	for result := range resChan {
 		if result.err != nil {
@@ -289,8 +289,8 @@ func (p *ParallelPopulationEpochExecutor) reproduce(ctx context.Context, generat
 			opts.PopSize, len(babies))
 	}
 
-	// speciate fresh progeny
-	err := pop.speciate(ctx, babies)
+	// Speciate fresh progeny
+	err := pop.Speciate(ctx, babies)
 
 	neat.DebugLog("POPULATION: >>>>> Reproduction Complete")
 
