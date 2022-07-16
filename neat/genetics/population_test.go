@@ -41,7 +41,7 @@ func TestNewPopulation(t *testing.T) {
 		CompatThreshold: 0.5,
 		PopSize:         10,
 	}
-	gen := newGenomeRand(1, in, out, n, nmax, false, linkProb)
+	gen := newGenomeRand(1, in, out, n, nmax, false, linkProb, nil)
 
 	pop, err := NewPopulation(gen, &conf)
 	require.NoError(t, err, "failed to create population")

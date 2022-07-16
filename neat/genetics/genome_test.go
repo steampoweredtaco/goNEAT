@@ -86,7 +86,7 @@ func TestGenome_NewGenomeRand(t *testing.T) {
 	rand.Seed(42)
 	newId, in, out, n := 1, 3, 2, 2
 
-	gnome := newGenomeRand(newId, in, out, n, 5, false, 0.5)
+	gnome := newGenomeRand(newId, in, out, n, 5, false, 0.5, nil)
 	require.NotNil(t, gnome, "Failed to create random genome")
 	assert.Len(t, gnome.Nodes, in+n+out, "failed to create nodes")
 	assert.True(t, len(gnome.Genes) >= in+n+out, "Failed to create genes")
