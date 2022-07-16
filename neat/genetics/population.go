@@ -590,3 +590,9 @@ func (p *Population) RemoveSpecies(species *Species) {
 		break
 	}
 }
+
+func (p *Population) RevertToOriginalFitness() {
+	for _, org := range p.Organisms {
+		org.Fitness = org.originalFitness
+	}
+}
