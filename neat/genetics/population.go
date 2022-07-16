@@ -572,6 +572,13 @@ func (p *Population) RemoveOrganism(org *Organism) {
 		}
 		break
 	}
+	for i, _ := range p.Organisms {
+		if org != p.Organisms[i] {
+			continue
+		}
+		p.Organisms = utils.Remove(p.Organisms, i)
+		break
+	}
 }
 
 func (p *Population) RemoveSpecies(species *Species) {
