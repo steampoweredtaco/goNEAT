@@ -231,6 +231,7 @@ func (p *Population) Speciate(ctx context.Context, organisms []*Organism) error 
 		return neat.ErrNEATOptionsNotFound
 	}
 
+	toRemoveFromSpecies := make(map[*Species][]*Organism)
 	// Step through all given organisms and speciate them within the population
 	for _, currOrg := range organisms {
 		// check if context was canceled
@@ -269,6 +270,18 @@ func (p *Population) Speciate(ctx context.Context, organisms []*Organism) error 
 						bestCompatible.Id, currOrg.Genotype.Id))
 				}
 				// Found compatible species, so add current organism to it
+				if currOrg.Species != nil && bestCompatible != currOrg.Species {
+					orgs := toRemoveFromSpecies[currOrg.Species]
+					if orgs == nil {
+						orgs = make([]*Organism, 10)
+					}
+					orgs = append(orgs)
+					toRemoveFromSpecies[currOrg.Species] = orgs
+				}
+
+				if currOrg.Species != nil && bestCompatible == currOrg.Species {
+					continue
+				}
 				bestCompatible.addOrganism(currOrg)
 				// Point organism to its species
 				currOrg.Species = bestCompatible
@@ -277,8 +290,13 @@ func (p *Population) Speciate(ctx context.Context, organisms []*Organism) error 
 				createFirstSpecies(p, currOrg)
 			}
 		}
-	}
 
+	}
+	for _, s := range p.Species {
+		for _, org := range toRemoveFromSpecies[s] {
+			s.removeOrganism(org)
+		}
+	}
 	return nil
 }
 
