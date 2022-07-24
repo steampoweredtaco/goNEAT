@@ -46,7 +46,7 @@ func TestPopulationEpochExecutor_NextEpoch(t *testing.T) {
 		RecurOnlyProb:   0.2,
 	}
 	neat.LogLevel = neat.LogLevelInfo
-	gen := newGenomeRand(1, in, out, n, nmax, false, linkProb)
+	gen := newGenomeRand(1, in, out, n, nmax, false, linkProb, nil)
 	pop, err := NewPopulation(gen, &conf)
 	require.NoError(t, err, "failed to create population")
 	require.NotNil(t, pop, "population expected")
