@@ -42,7 +42,7 @@ type Population struct {
 	nextInnovNum int64
 	// The next ID for new node in population
 	nextNodeId int32
-
+	nextOrgId  int
 	// The mutex to guard against concurrent modifications
 	mutex *sync.Mutex
 }
@@ -264,13 +264,17 @@ func (p *Population) Speciate(ctx context.Context, organisms []*Organism) error 
 					}
 				}
 			}
+			if bestCompatible != nil && currOrg.Species == bestCompatible {
+				continue
+			}
+
 			if bestCompatible != nil && done {
 				if neat.LogLevel == neat.LogLevelDebug {
 					neat.DebugLog(fmt.Sprintf("POPULATION: Compatible species [%d] found for baby organism [%d]",
 						bestCompatible.Id, currOrg.Genotype.Id))
 				}
 				// Found compatible species, so add current organism to it
-				if currOrg.Species != nil && bestCompatible != currOrg.Species {
+				if currOrg.Species != nil {
 					orgs := toRemoveFromSpecies[currOrg.Species]
 					if orgs == nil {
 						orgs = make([]*Organism, 10)
@@ -279,9 +283,6 @@ func (p *Population) Speciate(ctx context.Context, organisms []*Organism) error 
 					toRemoveFromSpecies[currOrg.Species] = orgs
 				}
 
-				if currOrg.Species != nil && bestCompatible == currOrg.Species {
-					continue
-				}
 				bestCompatible.addOrganism(currOrg)
 				// Point organism to its species
 				currOrg.Species = bestCompatible
@@ -551,7 +552,6 @@ func (p *Population) PurgeOldGeneration(bestSpeciesId int) error {
 // Removes all empty Species and age ones that survive.
 // As this happens, create master organism list for the new generation.
 func (p *Population) PurgeOrAgeSpecies() {
-	orgCount := 0
 	speciesToKeep := make([]*Species, 0)
 	for _, currSpecies := range p.Species {
 		if len(currSpecies.Organisms) > 0 {
@@ -563,9 +563,9 @@ func (p *Population) PurgeOrAgeSpecies() {
 			}
 			// Rebuild master Organism list of population: NUMBER THEM as they are added to the list
 			for _, org := range currSpecies.Organisms {
-				org.Genotype.Id = orgCount
+				org.Genotype.Id = p.nextOrgId
+				p.nextOrgId++
 				p.Organisms = append(p.Organisms, org)
-				orgCount++
 			}
 			// keep this species
 			speciesToKeep = append(speciesToKeep, currSpecies)
@@ -621,4 +621,10 @@ func (p *Population) RevertToOriginalFitness() {
 	for _, org := range p.Organisms {
 		org.Fitness = org.originalFitness
 	}
+}
+
+func (p *Population) NextOrgId() int {
+	id := p.nextOrgId
+	p.nextOrgId++
+	return id
 }
