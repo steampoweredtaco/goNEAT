@@ -275,7 +275,7 @@ func (p *Population) Speciate(ctx context.Context, organisms []*Organism) error 
 					if orgs == nil {
 						orgs = make([]*Organism, 10)
 					}
-					orgs = append(orgs)
+					orgs = append(orgs, currOrg)
 					toRemoveFromSpecies[currOrg.Species] = orgs
 				}
 
@@ -286,6 +286,14 @@ func (p *Population) Speciate(ctx context.Context, organisms []*Organism) error 
 				// Point organism to its species
 				currOrg.Species = bestCompatible
 			} else {
+				if currOrg.Species != nil {
+					orgs := toRemoveFromSpecies[currOrg.Species]
+					if orgs == nil {
+						orgs = make([]*Organism, 10)
+					}
+					orgs = append(orgs, currOrg)
+					toRemoveFromSpecies[currOrg.Species] = orgs
+				}
 				// If we didn't find a match, create a new species
 				createFirstSpecies(p, currOrg)
 			}
