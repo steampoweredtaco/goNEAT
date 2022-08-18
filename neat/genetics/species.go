@@ -209,6 +209,25 @@ func (s *Species) ComputeMaxAndAvgFitnessOlderOnly(requiredAge uint) (max, avg f
 	return max, avg
 }
 
+func (s *Species) ComputeMaxAndAvgAdjustedFitnessOlderOnly(requiredAge uint) (max, avg float64) {
+	total := 0.0
+	notIncluded := 0
+	for _, o := range s.Organisms {
+		if o.Age < requiredAge {
+			notIncluded++
+			continue
+		}
+		total += o.lastAdjustedStandardFitness
+		if o.lastAdjustedStandardFitness > max {
+			max = o.lastAdjustedStandardFitness
+		}
+	}
+	if len(s.Organisms)-notIncluded > 0 {
+		avg = total / float64(len(s.Organisms))
+	}
+	return max, avg
+}
+
 // FindChampion Returns most fit organism for this species
 func (s *Species) FindChampion() *Organism {
 	champFitness := -1.0

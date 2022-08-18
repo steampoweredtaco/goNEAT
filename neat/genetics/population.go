@@ -391,11 +391,14 @@ func (p *Population) CalculateExpectedOffspring(generation int) {
 			if neat.LogLevel == neat.LogLevelDebug {
 				neat.DebugLog(fmt.Sprintf("POPULATION: Population died !!! (expected/total) %d/%d", finalExpected, totalOrganisms))
 			}
-			for _, sp := range p.Species {
-				sp.ExpectedOffspring = 0
-			}
+			// Removing this totaly screws with the odds so if population is spirialing down it ends up with a single species in RT neat.
+			// if this happens.
+			//for _, sp := range p.Species {
+			//	sp.ExpectedOffspring = 0
+			//}
 			if bestSpecies != nil {
-				bestSpecies.ExpectedOffspring = totalOrganisms
+				// bestSpecies = totalOrganisms
+				bestSpecies.ExpectedOffspring += totalOrganisms - finalExpected
 			}
 		}
 	}
